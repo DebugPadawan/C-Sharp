@@ -50,6 +50,8 @@ class ChampionSelector
             }
 
             // Replace spaces with dashes (e.g. "miss fortune" -> "miss-fortune") and convert to lowercase
+            // Why? Because the champion names in the list are in this format
+            // Only for optic reasons, so the user can type the champion name with spaces
             championName = championName.Replace(" ", "-").ToLower();
 
             // Find the champion with the given name
