@@ -3,6 +3,11 @@
  * Author:        DebugPadawan (https://github.com/DebugPadawan)
  * Created on:    19.01.2025
  * Description:   This script is used to select a champion from a list of champions.
+ * TODO:  
+    *  - Fix the bug in the FetchChampions method
+    *  - Make GetBestCounters and GetWorstCounters methods more efficient (Asynchronous)
+    *  - Add error handling
+    *  - Reduce httpClient creation (Create a single instance of HttpClient and reuse it)
  **************************************************************************/
 
 using System.Globalization;
@@ -122,7 +127,6 @@ class ChampionSelector
             // BUG: The name of the champion sometimes contains a special character like ' in it. Name will not be displayed correctly in console.
             // ───────────────────────────────────────────────
 
-
             // Check if the champion name is not empty
             if (!string.IsNullOrEmpty(championName))
             {
@@ -131,14 +135,10 @@ class ChampionSelector
 
                 // Add the champion to the list of champions
                 champions.Add(champion);            
-
-                //Console.WriteLine($"Fetched champion: {champion.nameBeautified}");
             }
         }
-
         // Close the HttpClient
         httpClient.Dispose();
-
     }
 }
 
@@ -152,9 +152,6 @@ class Champion
     public string nameBeautified;
 
     private string championUrl;
-
-    // List of counters for the champion. Why private? Because we don't want to expose the counters list directly to the outside world.
-    private List<string> counters = new List<string>();
 
     public Champion(string name)
     {
